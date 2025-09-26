@@ -2,14 +2,13 @@ group 'dev.rexios.polar'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.8.22'
+    ext.kotlin_version = '1.9.10'  // Updated from 1.8.22
     repositories {
         google()
         mavenCentral()
     }
-
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.1'
+        classpath 'com.android.tools.build:gradle:8.1.4'  // Updated from 7.3.1
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -18,7 +17,6 @@ rootProject.allprojects {
     repositories {
         google()
         mavenCentral()
-
         maven { url 'https://jitpack.io' }
     }
 }
@@ -27,25 +25,33 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdk 33
-
+    compileSdk 35  // Updated from 33
+    namespace "dev.rexios.polar"
+    
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+    
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+    
     defaultConfig {
         minSdkVersion 24
         consumerProguardFiles 'proguard-rules.pro'
     }
-    namespace "dev.rexios.polar"
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-
     // Dependencies for Polar SDK
     api 'com.github.polarofficial:polar-ble-sdk:5.4.0'
     implementation 'io.reactivex.rxjava3:rxjava:3.1.6'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
-
     implementation 'com.google.code.gson:gson:2.10'
 }
